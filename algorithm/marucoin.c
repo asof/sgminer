@@ -48,6 +48,7 @@
 #include "sph/sph_echo.h"
 #include "sph/sph_hamsi.h"
 #include "sph/sph_fugue.h"
+#include "sph/sph_sm3.h"
 
 /* Move init out of loop, so init once externally, and then use one single memcpy with that bigger memory block */
 typedef struct {
@@ -94,7 +95,9 @@ void maruhash(void *state, const void *input)
     init_Mhash_contexts();
     
     Xhash_context_holder ctx;
-    
+
+	sm3_ctx_t ctx_sm3;
+
     uint32_t hashA[16], hashB[16];  
     //blake-bmw-groestl-sken-jh-meccak-luffa-cubehash-shivite-simd-echo
     memcpy(&ctx, &base_contexts, sizeof(base_contexts));
@@ -131,15 +134,21 @@ void maruhash(void *state, const void *input)
     
     sph_echo512 (&ctx.echo1, hashB, 64);   
     sph_echo512_close(&ctx.echo1, hashA);    
+	
+	//////sm3 is 256bit
+	sm3_init(&ctx_sm3);
+	sph_sm3(&ctx_sm3, (const void*)hashA, 64);
+	sph_sm3_close(&ctx_sm3, (void*)(hashB));
+	memset(hashB + 8, 0, 32);
 
-    sph_hamsi512 (&ctx.hamsi1, hashA, 64);   
-    sph_hamsi512_close(&ctx.hamsi1, hashB);    
+    sph_hamsi512 (&ctx.hamsi1, hashB, 64);   
+    sph_hamsi512_close(&ctx.hamsi1, hashA);    
 
-    sph_fugue512 (&ctx.fugue1, hashB, 64);   
-    sph_fugue512_close(&ctx.fugue1, hashA);    
+    sph_fugue512 (&ctx.fugue1, hashA, 64);   
+    sph_fugue512_close(&ctx.fugue1, hashB);    
 
 
-    memcpy(state, hashA, 32);
+    memcpy(state, hashB, 32);
 
 }
 

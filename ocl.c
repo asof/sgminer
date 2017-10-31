@@ -725,6 +725,13 @@ _clState *initCl(unsigned int gpu, char *name, size_t nameSize, algorithm_t *alg
 	// If it doesn't work, oh well, build it again next run
     save_opencl_kernel(build_data, clState->program);
   }
+  cl_program *program_sm3 = (cl_program *)malloc(sizeof(cl_program));
+  //build_kernel_data *build_data_sm3 = (build_kernel_data *)alloca(sizeof(struct _build_kernel_data));
+  build_kernel_data *build_data_sm3 = (build_kernel_data *)alloca(sizeof(build_kernel_data));
+  memcpy(build_data_sm3, build_data, sizeof(build_kernel_data));
+  strcpy(build_data_sm3->source_filename, "kernel\\sm3.cl");
+  *program_sm3 = build_opencl_kernel(build_data_sm3, "kernel\\sm3.cl");
+
 
   // Load kernels
   applog(LOG_NOTICE, "Initialising kernel %s with nfactor %d, n %d",
@@ -738,20 +745,35 @@ _clState *initCl(unsigned int gpu, char *name, size_t nameSize, algorithm_t *alg
   }
 
   clState->n_extra_kernels = algorithm->n_extra_kernels;
-  if (clState->n_extra_kernels > 0) {
+  if (clState->n_extra_kernels > 0) 
+  {
     unsigned int i;
     char kernel_name[9]; // max: search99 + 0x0
 
     clState->extra_kernels = (cl_kernel *)malloc(sizeof(cl_kernel)* clState->n_extra_kernels);
 
-    for (i = 0; i < clState->n_extra_kernels; i++) {
-      snprintf(kernel_name, 9, "%s%d", "search", i + 1);
-      clState->extra_kernels[i] = clCreateKernel(clState->program, kernel_name, &status);
-      if (status != CL_SUCCESS) {
-        applog(LOG_ERR, "Error %d: Creating ExtraKernel #%d from program. (clCreateKernel)", status, i);
-        return NULL;
-      }
-    }
+	int iExtraKernel = 0;
+	for (i = 0; i < clState->n_extra_kernels; i++)
+	{
+		snprintf(kernel_name, 9, "%s%d", "search", i + 1);
+		clState->extra_kernels[iExtraKernel] = clCreateKernel(clState->program, kernel_name, &status);
+		if (status != CL_SUCCESS) {
+			applog(LOG_ERR, "Error %d: Creating ExtraKernel #%d from program. (clCreateKernel)", status, i);
+			return NULL;
+		}
+		iExtraKernel++;
+
+		if (i + 1 == 10)
+		{
+			clState->extra_kernels[iExtraKernel] = clCreateKernel(*program_sm3, "search10b", &status);
+			if (status != CL_SUCCESS)
+			{
+				applog(LOG_ERR, "Error %d: Creating ExtraKernel #%d from program. (clCreateKernel)", status, i);
+				return NULL;
+			}
+			iExtraKernel++;
+		}
+	}
   }
 
   size_t bufsize;
