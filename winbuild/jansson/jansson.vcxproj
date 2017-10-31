@@ -150,24 +150,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\submodules\jansson\src\dump.c" />
-    <ClCompile Include="..\..\submodules\jansson\src\error.c" />
-    <ClCompile Include="..\..\submodules\jansson\src\hashtable.c" />
-    <ClCompile Include="..\..\submodules\jansson\src\hashtable_seed.c" />
-    <ClCompile Include="..\..\submodules\jansson\src\load.c" />
-    <ClCompile Include="..\..\submodules\jansson\src\memory.c" />
-    <ClCompile Include="..\..\submodules\jansson\src\pack_unpack.c" />
-    <ClCompile Include="..\..\submodules\jansson\src\strbuffer.c" />
-    <ClCompile Include="..\..\submodules\jansson\src\strconv.c" />
-    <ClCompile Include="..\..\submodules\jansson\src\utf.c" />
-    <ClCompile Include="..\..\submodules\jansson\src\value.c" />
+    <ClCompile Include="..\..\submodules\jansson-not_link\src\dump.c" />
+    <ClCompile Include="..\..\submodules\jansson-not_link\src\error.c" />
+    <ClCompile Include="..\..\submodules\jansson-not_link\src\hashtable.c" />
+    <ClCompile Include="..\..\submodules\jansson-not_link\src\hashtable_seed.c" />
+    <ClCompile Include="..\..\submodules\jansson-not_link\src\load.c" />
+    <ClCompile Include="..\..\submodules\jansson-not_link\src\memory.c" />
+    <ClCompile Include="..\..\submodules\jansson-not_link\src\pack_unpack.c" />
+    <ClCompile Include="..\..\submodules\jansson-not_link\src\strbuffer.c" />
+    <ClCompile Include="..\..\submodules\jansson-not_link\src\strconv.c" />
+    <ClCompile Include="..\..\submodules\jansson-not_link\src\utf.c" />
+    <ClCompile Include="..\..\submodules\jansson-not_link\src\value.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\submodules\jansson\src\hashtable.h" />
-    <ClInclude Include="..\..\submodules\jansson\src\jansson.h" />
+    <ClInclude Include="..\..\submodules\jansson-not_link\src\hashtable.h" />
+    <ClInclude Include="..\..\submodules\jansson-not_link\src\jansson.h" />
     <ClInclude Include="..\..\submodules\jansson\src\jansson_private.h" />
-    <ClInclude Include="..\..\submodules\jansson\src\strbuffer.h" />
-    <ClInclude Include="..\..\submodules\jansson\src\utf.h" />
+    <ClInclude Include="..\..\submodules\jansson-not_link\src\strbuffer.h" />
+    <ClInclude Include="..\..\submodules\jansson-not_link\src\utf.h" />
     <ClInclude Include="jansson_config.h" />
     <ClInclude Include="jansson_private_config.h" />
   </ItemGroup>

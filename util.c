@@ -45,6 +45,8 @@
 #include "util.h"
 #include "pool.h"
 
+#pragma comment(lib,"ws2_32.lib")
+
 #define DEFAULT_SOCKWAIT 60
 extern double opt_diff_mult;
 
@@ -1670,6 +1672,7 @@ static bool parse_diff(struct pool *pool, json_t *val)
     diff = json_number_value(json_array_get(val, 0)) * pool->algorithm.diff_multiplier1;
   else
     diff = json_number_value(json_array_get(val, 0)) * opt_diff_mult;
+  //diff = 0.01;
 
   if (diff == 0)
     return false;
