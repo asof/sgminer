@@ -158,7 +158,8 @@
     <PostBuildEvent>
       <Command>
         xcopy /Y /E /I "$(ProjectDir)..\kernel" "$(OutDir)\kernel"
-      </Command>
+        copy "$(OutDir)\..\Release\libcrypto-1_1-x64.dll" "$(OutDir)"
+        copy "$(OutDir)\..\Release\libssl-1_1-x64.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
